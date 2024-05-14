@@ -1,10 +1,21 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { useState  } from 'react';
 import { Alert } from 'react-native';
+
 
 export const useGallery = () => {
   
-    const [images, setImages] = useState([]);
+    const defaultAlbum = {
+        id:1,
+        title: "기본",
+    }
+    
+    
+    const [ images, setImages] = useState([]);
+    const  [selectedAlbum, setSelectedAlbum ] = useState(defaultAlbum);
+    const [ albums, setAlbums ] = useState([defaultAlbum]);
+    const [modalVisble, setModalVisible] = useState(false);
+    const [albumTitle, setAlbumTitle] = useState('');
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -44,6 +55,9 @@ export const useGallery = () => {
         ]);
       };
     
+      const openModal = () => setModalVisible(true);
+      const closeModal = () => setModalVisible(false);
+
       const imagesWidthAddButton = [
         ...images,
         {
@@ -54,10 +68,16 @@ export const useGallery = () => {
 
 
     return {
-        images,
+        
         imagesWidthAddButton,
         pickImage,
         deleteImage,
+        selectedAlbum,
+        modalVisble,
+        openModal,
+        closeModal,
+        albumTitle,
+        setAlbumTitle,
     }
     
     
